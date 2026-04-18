@@ -1419,6 +1419,171 @@ body {
   font-weight: 900;
 }
 
+
+/* ── MOBILE BOTTOM NAV ─────────────────────────────── */
+.bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 72px;
+  background: color-mix(in srgb, var(--surface-solid) 92%, transparent);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border-top: 1px solid var(--border);
+  z-index: 500;
+  padding: 0 8px env(safe-area-inset-bottom);
+  display: none;
+  align-items: stretch;
+  justify-content: space-around;
+  box-shadow: 0 -8px 24px rgba(0,0,0,0.06);
+}
+.bn-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  padding: 8px 4px;
+  border-radius: 16px;
+  transition: color 0.2s var(--ease), transform 0.2s var(--spring);
+  -webkit-tap-highlight-color: transparent;
+}
+.bn-item:active { transform: scale(0.88); }
+.bn-item.active { color: var(--theme-accent); }
+.bn-item svg { width: 22px; height: 22px; stroke-width: 2; transition: transform 0.2s var(--spring); }
+.bn-item.active svg { transform: translateY(-3px); filter: drop-shadow(0 4px 8px color-mix(in srgb, var(--theme-accent) 40%, transparent)); }
+.bn-dot {
+  position: absolute;
+  top: -3px; right: -3px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--c-red);
+  border: 2px solid var(--surface-solid);
+}
+.bn-icon-wrap { position: relative; }
+.bn-add {
+  width: 52px; height: 52px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--theme-accent), var(--theme-accent-2));
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--theme-accent) 38%, transparent);
+  transition: transform 0.2s var(--spring), box-shadow 0.2s ease;
+  margin-top: -14px;
+}
+.bn-add:active { transform: scale(0.88); }
+@media (max-width: 1200px) {
+  .bottom-nav { display: flex; }
+  body { padding-bottom: 72px; }
+  .scroll-area { padding-bottom: 80px !important; }
+}
+
+
+/* ── EFFORT POINTS ─────────────────────────────────── */
+.effort-picker { display:flex; gap:6px; flex-wrap:wrap; }
+.effort-btn {
+  min-width:38px; height:38px; border-radius:12px;
+  border:2px solid var(--border); background:var(--bg-main);
+  color:var(--text-muted); font-size:13px; font-weight:900;
+  cursor:pointer; transition:all 0.2s var(--spring);
+  display:flex; align-items:center; justify-content:center;
+}
+.effort-btn:hover { border-color:var(--theme-accent); color:var(--theme-accent); transform:scale(1.08); }
+.effort-btn.active {
+  background:linear-gradient(135deg, var(--theme-accent), var(--theme-accent-2));
+  color:#fff; border-color:transparent;
+  box-shadow:0 4px 12px color-mix(in srgb, var(--theme-accent) 30%, transparent);
+  transform:scale(1.08);
+}
+.effort-badge {
+  display:inline-flex; align-items:center; gap:4px;
+  padding:3px 8px; border-radius:8px;
+  background:color-mix(in srgb, var(--theme-accent) 12%, transparent);
+  color:var(--theme-accent);
+  font-size:11px; font-weight:900;
+  border:1px solid color-mix(in srgb, var(--theme-accent) 22%, transparent);
+}
+
+/* ── SWIPE-TO-COMPLETE (mobil jestleri) ─────────────── */
+.task-card { overflow: visible !important; position: relative; }
+.swipe-action-bg {
+  position: absolute; inset: 0;
+  border-radius: var(--radius-lg);
+  display: flex; align-items: center;
+  padding: 0 24px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 0;
+}
+.swipe-action-bg.left { background: linear-gradient(90deg, var(--c-green), transparent); justify-content: flex-start; }
+.swipe-action-bg.right { background: linear-gradient(270deg, var(--c-red), transparent); justify-content: flex-end; }
+.swipe-action-bg svg { color: #fff; width: 28px; height: 28px; }
+
+/* ── BULK SELECT MODE ────────────────────────────────── */
+.bulk-bar {
+  position: fixed; bottom: 96px; left: 50%; transform: translateX(-50%) translateY(120px);
+  background: var(--text-main); color: var(--surface-solid);
+  border-radius: 999px; padding: 14px 24px;
+  display: flex; align-items: center; gap: 16px;
+  box-shadow: var(--shadow-xl); z-index: 300;
+  transition: transform 0.4s var(--spring);
+  white-space: nowrap;
+}
+.bulk-bar.visible { transform: translateX(-50%) translateY(0); }
+.bulk-bar-btn {
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+  color: #fff; border-radius: 999px; padding: 8px 16px;
+  font-size: 13px; font-weight: 800; cursor: pointer;
+  transition: background 0.2s;
+}
+.bulk-bar-btn:hover { background: rgba(255,255,255,0.22); }
+.bulk-bar-btn.danger { color: #ff6b6b; border-color: rgba(255,107,107,0.3); }
+.task-card.bulk-selected {
+  border-color: var(--theme-accent) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-accent) 22%, transparent) !important;
+}
+.task-card .bulk-check {
+  position: absolute; top: 14px; left: 14px;
+  width: 22px; height: 22px; border-radius: 7px;
+  border: 2px solid var(--border); background: var(--surface-solid);
+  display: none; align-items: center; justify-content: center;
+  transition: all 0.2s var(--spring); z-index: 10;
+}
+.bulk-mode .task-card .bulk-check { display: flex; }
+.task-card.bulk-selected .bulk-check {
+  background: var(--theme-accent); border-color: var(--theme-accent);
+}
+
+/* ── DAILY PROGRESS RING ──────────────────────────────── */
+.progress-ring-wrap {
+  position: relative; display: inline-flex;
+  align-items: center; justify-content: center;
+  width: 64px; height: 64px;
+}
+.progress-ring-wrap svg { transform: rotate(-90deg); }
+.progress-ring-track { fill: none; stroke: rgba(255,255,255,0.15); stroke-width: 6; }
+.progress-ring-fill {
+  fill: none; stroke: #fff; stroke-width: 6;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1.2s var(--spring);
+}
+.progress-ring-label {
+  position: absolute;
+  font-size: 13px; font-weight: 900;
+  color: #fff;
+}
+
 /* --- RESPONSIVE DESIGN --- */
 @media (max-width: 1200px) {
   html { -webkit-overflow-scrolling: touch; overflow-x: hidden; overflow-y: auto; }
@@ -1536,6 +1701,20 @@ body {
                   <div class="hero-title" id="mission-title">Günü yöneten sistem burada başlar.</div>
                   <div class="hero-subtitle" id="mission-copy">Açık görevler, odak ritmi ve kritik darboğazlar tek noktada toplanıyor.</div>
                   <div class="hero-metrics" id="mission-metrics"></div>
+                  <div style="margin-top:24px; display:flex; align-items:center; gap:20px; padding:16px 20px; border-radius:20px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12);">
+                      <div class="progress-ring-wrap">
+                          <svg width="64" height="64" viewBox="0 0 64 64">
+                              <circle class="progress-ring-track" cx="32" cy="32" r="28"/>
+                              <circle class="progress-ring-fill" id="daily-progress-ring" cx="32" cy="32" r="28" stroke-dasharray="175.9" stroke-dashoffset="175.9"/>
+                          </svg>
+                          <span class="progress-ring-label" id="daily-progress-pct">0%</span>
+                      </div>
+                      <div>
+                          <div style="font-size:12px; font-weight:800; opacity:0.7; text-transform:uppercase; letter-spacing:0.08em;">Bugünün Tamamlanma</div>
+                          <div style="font-size:22px; font-weight:900; margin-top:4px;" id="daily-progress-text">0 / 0 görev</div>
+                          <div style="font-size:12px; opacity:0.65; margin-top:4px;" id="daily-progress-sub">Güne henüz başlamadın</div>
+                      </div>
+                  </div>
                   <div class="hero-actions">
                       <button class="hero-btn primary" onclick="focusPrimaryTask()">En Kritik Görevi Aç</button>
                       <button class="hero-btn secondary" onclick="openCommandPalette()">Klavye ile Yönet</button>
@@ -1556,6 +1735,13 @@ body {
                   <section class="hero-panel signal-card">
                       <div class="panel-title">Canlı Durum</div>
                       <div class="panel-body stack-list" id="workflow-health"></div>
+                  </section>
+                  <section class="hero-panel signal-card" style="padding:18px 20px;">
+                      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                          <div class="panel-title">Haftalık Burndown</div>
+                          <div style="font-size:11px; font-weight:800; color:var(--text-muted);" id="weekly-pct-lbl">0%</div>
+                      </div>
+                      <canvas id="weekly-burndown-chart" height="72"></canvas>
                   </section>
               </div>
           </div>
@@ -1817,7 +2003,16 @@ body {
                     <button onclick="requestNotifPermission()" style="padding:8px 16px; border-radius:10px; border:none; background:var(--c-orange); color:white; font-size:12px; font-weight:800; cursor:pointer; white-space:nowrap;">İzin Ver</button>
                 </div>
                 
-                <div style="margin-top: 40px; padding: 20px 24px; border-radius: 20px; background: var(--bg-main); border: 1px solid var(--border);">
+                <!-- Today's sessions -->
+                <div style="margin-top:28px; padding:16px 20px; border-radius:18px; background:var(--bg-main); border:1px solid var(--border);">
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+                        <div style="font-size:12px; font-weight:900; color:var(--text-muted); text-transform:uppercase; letter-spacing:.8px;">Bugünün Seansları</div>
+                        <div id="pomo-session-total" style="font-size:12px; font-weight:800; color:var(--theme-accent);">0 dk</div>
+                    </div>
+                    <div id="pomo-session-dots" style="display:flex; gap:6px; flex-wrap:wrap; min-height:22px;"></div>
+                </div>
+
+                <div style="margin-top: 16px; padding: 20px 24px; border-radius: 20px; background: var(--bg-main); border: 1px solid var(--border);">
                     <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 16px;">
                         <div style="display:flex; align-items:center; gap:12px;">
                             <div style="width:36px; height:36px; border-radius:10px; background:color-mix(in srgb, var(--c-purple) 14%, transparent); color:var(--c-purple); display:flex; align-items:center; justify-content:center; font-size:18px;" id="ambient-icon">🎧</div>
@@ -1937,6 +2132,22 @@ body {
                             <button type="button" class="inline-action-btn danger" onclick="clearReminder()">Temizle</button>
                         </div>
                     </div>
+                    <div class="task-option-card">
+                        <div class="task-option-header">
+                            <div class="row-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+                            <div><div class="task-option-title">Efor Puanı</div><div class="task-option-subtitle" id="effort-label-text">Karmaşıklık belirtilmedi</div></div>
+                        </div>
+                        <div class="effort-picker" id="effort-picker">
+                            <button type="button" class="effort-btn" data-val="1" onclick="setEffort(1)">1</button>
+                            <button type="button" class="effort-btn" data-val="2" onclick="setEffort(2)">2</button>
+                            <button type="button" class="effort-btn" data-val="3" onclick="setEffort(3)">3</button>
+                            <button type="button" class="effort-btn" data-val="5" onclick="setEffort(5)">5</button>
+                            <button type="button" class="effort-btn" data-val="8" onclick="setEffort(8)">8</button>
+                            <button type="button" class="effort-btn" data-val="13" onclick="setEffort(13)">13</button>
+                        </div>
+                        <input type="hidden" id="f-effort" value="0">
+                    </div>
+
                     <div class="task-option-card" onclick="cycleRepeat()" style="cursor:pointer;">
                         <div class="task-option-header" style="margin-bottom:0;">
                             <div class="row-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path></svg></div>
@@ -2756,6 +2967,7 @@ function renderMissionControl() {
             { label: 'Alışkanlık takibi', text: habits.length ? `${snapshot.habitDoneToday}/${habits.length} tamamlandı` : 'Takip edilen alışkanlık yok', value: habits.length ? `%${snapshot.habitCoverage}` : 'NEW' }
         ].map(item => `<div class="stack-item"><div><strong>${item.label}</strong><span>${item.text}</span></div><div class="stack-pill">${item.value}</div></div>`).join('');
     }
+    renderWeeklyBurndown();
 }
 
 function renderSmartActions() {
@@ -2786,6 +2998,57 @@ function renderPriorityRadar() {
         const pct = Math.min(100, Math.round((row.value / total) * 100));
         return `<div class="radar-row"><div class="radar-label">${row.label}</div><div class="radar-track"><div class="radar-fill" style="width:${pct}%"></div></div><div class="radar-value">${row.value}</div></div>`;
     }).join('');
+}
+
+function renderWeeklyBurndown() {
+    const canvas = document.getElementById('weekly-burndown-chart');
+    if(!canvas) return;
+    const today = new Date();
+    const dow = today.getDay();
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1));
+    const labels = [], done = [], created = [];
+    const dayNames = ['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'];
+    for(let i = 0; i < 7; i++) {
+        const d = new Date(startOfWeek);
+        d.setDate(startOfWeek.getDate() + i);
+        const ds = d.toISOString().split('T')[0];
+        labels.push(dayNames[i]);
+        done.push(tasks.filter(t => t.completedAt && t.completedAt.startsWith(ds)).length);
+        created.push(tasks.filter(t => t.date === ds).length);
+    }
+    const weekStart = startOfWeek.toISOString().split('T')[0];
+    const weekEnd = today.toISOString().split('T')[0];
+    const weekTasks = tasks.filter(t => t.date && t.date >= weekStart && t.date <= weekEnd);
+    const weekDone = weekTasks.filter(t => t.done).length;
+    const pct = weekTasks.length ? Math.round(weekDone / weekTasks.length * 100) : 0;
+    const lbl = document.getElementById('weekly-pct-lbl');
+    if(lbl) lbl.textContent = weekTasks.length ? `${weekDone}/${weekTasks.length} — %${pct}` : 'Görev yok';
+
+    const isDark = document.documentElement.hasAttribute('data-dark');
+    const textColor = isDark ? '#94a3b8' : '#64748b';
+    const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--theme-accent').trim() || '#007aff';
+    const ctx = canvas.getContext('2d');
+    if(canvas._chartInst) canvas._chartInst.destroy();
+    canvas._chartInst = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [
+                { label: 'Tamamlanan', data: done, backgroundColor: accentColor, borderRadius:{topLeft:6,topRight:6,bottomLeft:0,bottomRight:0}, borderSkipped:false, barPercentage:0.55 },
+                { label: 'Planlanan', data: created, backgroundColor: isDark?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.06)', borderRadius:{topLeft:6,topRight:6,bottomLeft:0,bottomRight:0}, borderSkipped:false, barPercentage:0.55 }
+            ]
+        },
+        options: {
+            responsive:true, maintainAspectRatio:false,
+            plugins:{ legend:{ display:false } },
+            scales:{
+                y:{ display:false, beginAtZero:true },
+                x:{ grid:{ display:false }, ticks:{ font:{ size:10, weight:'700' }, color:textColor }, border:{ display:false } }
+            },
+            animation:{ duration:600, easing:'easeOutQuart' }
+        }
+    });
 }
 
 function focusPrimaryTask() {
@@ -2950,7 +3213,8 @@ function getCommandActions() {
         { id: 'today-view', title: 'Bugün görünümüne dön', desc: 'Bugüne atanmış görevleri filtreler.', key: 'T', run: () => setListTab('today', document.querySelector('.list-tab[data-tab="today"]')) },
         { id: 'kanban-view', title: 'Kanban panosunu aç', desc: 'Görevleri akış bazlı yönetmeye geçer.', key: 'K', run: () => switchView('kanban', document.querySelector('.sidebar .nav-btn[onclick*=\"kanban\"]')) },
         { id: 'focus-mode', title: 'Odak modunu değiştir', desc: 'Tam ekran derin çalışma modunu açar veya kapatır.', key: 'F', run: () => toggleFocusMode() },
-        { id: 'primary-task', title: 'En kritik görevi aç', desc: 'Öncelik motorunun seçtiği göreve gider.', key: '↵', run: () => focusPrimaryTask() }
+        { id: 'primary-task', title: 'En kritik görevi aç', desc: 'Öncelik motorunun seçtiği göreve gider.', key: '↵', run: () => focusPrimaryTask() },
+        { id: 'bulk-select', title: 'Toplu seçim modunu aç/kapat', desc: 'Birden fazla görev seç, toplu işlem yap.', key: 'B', run: () => { if(bulkMode) exitBulkMode(); else enterBulkMode(); } }
     ];
 }
 
@@ -3079,6 +3343,7 @@ function switchView(v, el) {
   const pomoView = document.getElementById('view-pomodoro');
   if(pomoView && v === 'pomodoro') { pomoView.style.display = 'flex'; checkNotifBar(); }
   
+  if(v==='liste') renderWeeklyBurndown();
   if(v==='rapor-gorev') renderReports();
   if(v==='rapor-aliskanlik') renderHabitAnalysis();
   if(v==='basarilar') renderAchievements();
@@ -3492,9 +3757,10 @@ function renderDetailView(tObj) {
       <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px;">
           <div style="flex:1;">
               <div style="font-size:28px; font-weight:900; letter-spacing:-0.5px; color:var(--text-main); margin-bottom:12px; line-height:1.2;">${t.name}</div>
-              <div style="display:flex; gap:10px; align-items:center;">
+              <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
                   ${getTagBadge(t.tag)}
                   ${getPriBadge(t.priority)}
+                  ${t.effort ? `<div class="effort-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> ${t.effort} SP — ${['','Çok Kolay','Kolay','Orta','','Zor','','','','Çok Zor','','','','Dev'][t.effort]||''}</div>` : ''}
               </div>
           </div>
       </div>
@@ -3539,6 +3805,11 @@ function switchToTaskEdit(tObj) {
     document.getElementById('f-desc').value = t.description || '';
     document.getElementById('f-tag').value = t.tag || '';
     setSelectPri(t.priority || 'none');
+    const effortField = document.getElementById('f-effort');
+    if(effortField) {
+        effortField.value = t.effort || 0;
+        setEffort(t.effort || 0);
+    }
     document.getElementById('f-date').value = t.date || getTodayStr();
     document.getElementById('f-reminder').value = t.reminder || '';
     document.getElementById('f-repeat').value = t.repeat || 'none';
@@ -3575,6 +3846,7 @@ function saveTask() {
       description: document.getElementById('f-desc').value,
       tag: document.getElementById('f-tag').value,
       priority: document.getElementById('f-pri').value,
+      effort: parseInt(document.getElementById('f-effort')?.value || '0') || 0,
       date: dateValue,
       reminder: reminderValue,
       repeat: document.getElementById('f-repeat').value,
@@ -3893,11 +4165,16 @@ function renderTasks(skipAnimation = false) {
         if(t.date) metaItems.push(`<div class="tc-meta-item">📅 ${t.date === today ? 'Bugün' : t.date}</div>`);
         if(t.reminder) metaItems.push(`<div class="tc-meta-item">🔔 ${new Date(t.reminder).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</div>`);
         if(t.repeat && t.repeat !== 'none') metaItems.push(`<div class="tc-meta-item">🔄 ${t.repeat}</div>`);
+        if(t.effort && t.effort > 0) metaItems.push(`<div class="effort-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> ${t.effort} SP</div>`);
 
         const animStyle = skipAnimation ? 'opacity: 1;' : `animation: slideUpFade 0.5s var(--spring) forwards; animation-delay: ${index * 0.05}s; opacity: 0;`;
 
         return `
-        <div class="task-card ${t.id === currentEditId ? 'selected' : ''}" draggable="true" data-id="${t.id}" onclick="openTaskPanel(${t.id})" style="${cardStyle} ${animStyle}">
+        <div class="task-card ${t.id === currentEditId ? 'selected' : ''}" draggable="true" data-id="${t.id}"
+          onclick="if(bulkMode){ toggleBulkSelect(${t.id}, this); } else { openTaskPanel(${t.id}); }"
+          oncontextmenu="event.preventDefault(); if(!bulkMode) enterBulkMode(); toggleBulkSelect(${t.id}, this);"
+          style="${cardStyle} ${animStyle}">
+          <div class="bulk-check"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div>
           <div class="tc-header">
             <div class="checkbox ${t.done ? 'on' : ''}" onclick="event.stopPropagation(); toggleTask(${t.id}, event)">
                <svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>
@@ -4132,7 +4409,10 @@ function renderKanban() {
       style="border-top: 4px solid ${colColors[c.id]}20;">
       <div class="kb-header">
         <span class="kb-title">${c.n}</span>
-        <span class="kb-badge" style="background:${colColors[c.id]}18; color:${colColors[c.id]};">${items.length}</span>
+        <div style="display:flex;gap:6px;align-items:center;">
+          ${(() => { const sp = items.reduce((s,t)=>s+(t.effort||0),0); return sp>0 ? `<span style="font-size:10px;font-weight:900;color:${colColors[c.id]};background:${colColors[c.id]}14;padding:3px 7px;border-radius:6px;">${sp}sp</span>` : ''; })()}
+          <span class="kb-badge" style="background:${colColors[c.id]}18; color:${colColors[c.id]};">${items.length}</span>
+        </div>
       </div>
       <div style="display:flex; flex-direction:column; gap:16px; flex:1; overflow-y:auto; padding-bottom:10px;">
       ${items.length ? items.map(t=> {
@@ -4539,6 +4819,26 @@ function handleScrubEnd() {
     playPomoSound('select');
 }
 
+function renderPomoSessions() {
+    const today = getTodayStr();
+    const todaySessions = pomoHistory.filter(p => p.date === today);
+    const totalMins = todaySessions.reduce((s, p) => s + (p.duration || 0), 0);
+    const dotsEl = document.getElementById('pomo-session-dots');
+    const totalEl = document.getElementById('pomo-session-total');
+    if(totalEl) totalEl.textContent = `${totalMins} dk`;
+    if(!dotsEl) return;
+    if(todaySessions.length === 0) {
+        dotsEl.innerHTML = `<span style="font-size:12px; color:var(--text-muted); font-weight:600;">Henüz seans yok. İlk odağını başlat!</span>`;
+        return;
+    }
+    dotsEl.innerHTML = todaySessions.slice(-12).map(s => {
+        const mins = s.duration || 0;
+        const h = Math.min(1, mins / 25);
+        const color = `color-mix(in srgb, var(--c-active-pomo, var(--c-red)) ${40 + h * 60}%, transparent)`;
+        return `<div title="${mins} dakika odak" style="width:${Math.max(20, mins * 1.2)}px; height:22px; border-radius:6px; background:${color}; border:1px solid color-mix(in srgb, var(--c-active-pomo, var(--c-red)) 40%, transparent); display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:900; color:var(--c-active-pomo, var(--c-red));">${mins}</div>`;
+    }).join('');
+}
+
 function updatePomoDisplay() {
   const m = Math.floor(pomoLeft/60), s = pomoLeft%60;
   const timeStr = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
@@ -4548,6 +4848,8 @@ function updatePomoDisplay() {
   if (timeEl) timeEl.textContent = timeStr;
   if (progEl) progEl.style.strokeDashoffset = 289 - (pomoLeft/pomoTotal)*289;
   
+  // Oturum geçmişi güncelle
+  renderPomoSessions();
   // Dinamik sekme başlığı
   if (pomoIv) {
     const modeLabel = pomoMode === 'work' ? '🍅 Odak' : (pomoMode === 'short' ? '☕ Kısa Mola' : '🌿 Uzun Mola');
@@ -4926,6 +5228,228 @@ async function askGeminiPlan() {
   `).join('');
 }
 
+
+// ══════════════════════════════════════════════════════════════
+// EFFORT POINTS
+// ══════════════════════════════════════════════════════════════
+const EFFORT_LABELS = { 0:'Belirtilmedi', 1:'Çok Kolay', 2:'Kolay', 3:'Orta', 5:'Zor', 8:'Çok Zor', 13:'Dev' };
+function setEffort(val) {
+    document.getElementById('f-effort').value = val;
+    document.querySelectorAll('.effort-btn').forEach(b => b.classList.toggle('active', parseInt(b.dataset.val) === val));
+    const lbl = document.getElementById('effort-label-text');
+    if(lbl) lbl.textContent = EFFORT_LABELS[val] || 'Belirtilmedi';
+}
+
+// ══════════════════════════════════════════════════════════════
+// DAILY PROGRESS RING
+// ══════════════════════════════════════════════════════════════
+function updateProgressRing() {
+    const today = getTodayStr();
+    const todayAll = tasks.filter(t => t.date === today);
+    const todayDone = todayAll.filter(t => t.done);
+    const total = todayAll.length;
+    const done = todayDone.length;
+    const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+
+    const ring = document.getElementById('daily-progress-ring');
+    const pctEl = document.getElementById('daily-progress-pct');
+    const textEl = document.getElementById('daily-progress-text');
+    const subEl = document.getElementById('daily-progress-sub');
+    const circumference = 175.9;
+
+    if(ring) {
+        const offset = circumference - (pct / 100) * circumference;
+        ring.style.strokeDashoffset = offset;
+        // Color based on progress
+        if(pct >= 80) ring.style.stroke = '#34c759';
+        else if(pct >= 50) ring.style.stroke = '#fff';
+        else ring.style.stroke = 'rgba(255,255,255,0.6)';
+    }
+    if(pctEl) pctEl.textContent = pct + '%';
+    if(textEl) textEl.textContent = `${done} / ${total} görev`;
+    if(subEl) subEl.textContent = pct >= 100 ? '🎉 Günü tamamladın!' : pct >= 50 ? 'Harika gidiyorsun!' : total === 0 ? 'Bugüne görev ekle' : 'Devam et!';
+}
+
+// ══════════════════════════════════════════════════════════════
+// BULK SELECT MODE
+// ══════════════════════════════════════════════════════════════
+let bulkMode = false;
+let selectedTaskIds = new Set();
+
+function enterBulkMode() {
+    bulkMode = true;
+    document.getElementById('task-list-container')?.classList.add('bulk-mode');
+    updateBulkBar();
+}
+
+function exitBulkMode() {
+    bulkMode = false;
+    selectedTaskIds.clear();
+    document.getElementById('task-list-container')?.classList.remove('bulk-mode');
+    document.querySelectorAll('.task-card').forEach(c => c.classList.remove('bulk-selected'));
+    const bar = document.getElementById('bulk-bar');
+    if(bar) bar.classList.remove('visible');
+}
+
+function toggleBulkSelect(id, cardEl) {
+    if(!bulkMode) return;
+    if(selectedTaskIds.has(id)) {
+        selectedTaskIds.delete(id);
+        cardEl.classList.remove('bulk-selected');
+    } else {
+        selectedTaskIds.add(id);
+        cardEl.classList.add('bulk-selected');
+    }
+    updateBulkBar();
+}
+
+function updateBulkBar() {
+    const bar = document.getElementById('bulk-bar');
+    const countEl = document.getElementById('bulk-count');
+    if(!bar) return;
+    if(selectedTaskIds.size > 0) {
+        bar.classList.add('visible');
+        if(countEl) countEl.textContent = `${selectedTaskIds.size} seçildi`;
+    } else {
+        bar.classList.remove('visible');
+    }
+}
+
+function bulkComplete() {
+    selectedTaskIds.forEach(id => {
+        const t = tasks.find(x => x.id === id);
+        if(t && !t.done) { t.done = true; t.status = 'done'; stats.totalDone++; }
+    });
+    addXP(selectedTaskIds.size * 50);
+    showNotif(`${selectedTaskIds.size} görev tamamlandı!`);
+    exitBulkMode();
+    save();
+}
+
+function bulkMoveTo(status) {
+    selectedTaskIds.forEach(id => {
+        const t = tasks.find(x => x.id === id);
+        if(t) { t.done = false; t.status = status; }
+    });
+    showNotif(`${selectedTaskIds.size} görev taşındı`);
+    exitBulkMode();
+    save();
+}
+
+function bulkDelete() {
+    if(!confirm(`${selectedTaskIds.size} görevi çöp kutusuna taşımak istediğinize emin misiniz?`)) return;
+    selectedTaskIds.forEach(id => {
+        const idx = tasks.findIndex(x => x.id === id);
+        if(idx > -1) { trash.push(tasks[idx]); tasks.splice(idx, 1); }
+    });
+    showNotif(`${selectedTaskIds.size} görev silindi`);
+    exitBulkMode();
+    save();
+}
+
+// ══════════════════════════════════════════════════════════════
+// MOBILE SWIPE-TO-COMPLETE / DELETE
+// ══════════════════════════════════════════════════════════════
+let swipeState = null;
+function initSwipeGestures(container) {
+    if(!container) return;
+    container.addEventListener('touchstart', e => {
+        const card = e.target.closest('.task-card');
+        if(!card || card.querySelector('.task-card')) return; // skip kanban nested
+        swipeState = { card, startX: e.touches[0].clientX, startY: e.touches[0].clientY, moved: false };
+    }, { passive: true });
+
+    container.addEventListener('touchmove', e => {
+        if(!swipeState) return;
+        const dx = e.touches[0].clientX - swipeState.startX;
+        const dy = e.touches[0].clientY - swipeState.startY;
+        if(!swipeState.moved && Math.abs(dy) > Math.abs(dx)) { swipeState = null; return; }
+        if(Math.abs(dx) > 8) swipeState.moved = true;
+        if(!swipeState.moved) return;
+
+        const pct = Math.min(Math.abs(dx) / 140, 1);
+        swipeState.card.style.transform = `translateX(${dx * 0.4}px)`;
+        // Show bg hint
+        let bg = swipeState.card.querySelector('.swipe-action-bg.left');
+        let bg2 = swipeState.card.querySelector('.swipe-action-bg.right');
+        if(!bg) {
+            bg = document.createElement('div'); bg.className = 'swipe-action-bg left';
+            bg.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>';
+            swipeState.card.prepend(bg);
+        }
+        if(!bg2) {
+            bg2 = document.createElement('div'); bg2.className = 'swipe-action-bg right';
+            bg2.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg>';
+            swipeState.card.prepend(bg2);
+        }
+        if(dx > 0) { bg.style.opacity = pct; bg2.style.opacity = 0; }
+        else { bg2.style.opacity = pct; bg.style.opacity = 0; }
+    }, { passive: true });
+
+    container.addEventListener('touchend', e => {
+        if(!swipeState || !swipeState.moved) { swipeState = null; return; }
+        const dx = e.changedTouches[0].clientX - swipeState.startX;
+        const card = swipeState.card;
+        card.style.transition = 'transform 0.3s var(--spring)';
+        card.style.transform = '';
+        card.querySelectorAll('.swipe-action-bg').forEach(b => b.style.opacity = 0);
+
+        const id = parseInt(card.dataset.id);
+        if(dx > 100) {
+            // swipe right → complete
+            card.style.transform = 'translateX(120%)';
+            card.style.opacity = '0';
+            setTimeout(() => { toggleTask(id, null); }, 300);
+        } else if(dx < -100) {
+            // swipe left → delete
+            card.style.transform = 'translateX(-120%)';
+            card.style.opacity = '0';
+            setTimeout(() => {
+                const idx = tasks.findIndex(x => x.id === id);
+                if(idx > -1) { trash.push(tasks[idx]); tasks.splice(idx, 1); save(); }
+            }, 300);
+        }
+        setTimeout(() => { card.style.transition = ''; }, 350);
+        swipeState = null;
+    }, { passive: true });
+}
+
+// ══════════════════════════════════════════════════════════════
+// MOBILE BOTTOM NAV
+// ══════════════════════════════════════════════════════════════
+let mobileMoreOpen = false;
+function toggleMobileMenu() {
+    mobileMoreOpen = !mobileMoreOpen;
+    const drawer = document.getElementById('mobile-more-drawer');
+    const overlay = document.getElementById('mobile-more-overlay');
+    if(drawer) {
+        drawer.style.display = mobileMoreOpen ? 'block' : 'none';
+        if(mobileMoreOpen) {
+            drawer.style.transform = 'translateY(100%)';
+            drawer.style.transition = 'transform 0.4s var(--spring)';
+            requestAnimationFrame(() => { drawer.style.transform = 'translateY(0)'; });
+        }
+    }
+    if(overlay) overlay.style.display = mobileMoreOpen ? 'block' : 'none';
+}
+
+function updateBottomNav(viewName) {
+    document.querySelectorAll('.bn-item').forEach(b => b.classList.remove('active'));
+    const activeBtn = document.getElementById('bn-' + viewName);
+    if(activeBtn) activeBtn.classList.add('active');
+    if(mobileMoreOpen) toggleMobileMenu();
+    // Update overdue dot
+    const overdueDot = document.getElementById('bn-overdue-dot');
+    if(overdueDot) {
+        const today = getTodayStr();
+        const overdue = tasks.filter(t => !t.done && t.date && t.date < today).length;
+        overdueDot.style.display = overdue > 0 ? 'block' : 'none';
+    }
+    // Update pomo dot
+    const pomoDot = document.getElementById('bn-pomo-dot');
+    if(pomoDot) pomoDot.style.display = pomoIv ? 'block' : 'none';
+}
+
 function renderAll() {
   checkAchievements();
   renderTasks();
@@ -4937,6 +5461,8 @@ function renderAll() {
   syncReminderTimers();
   updateXPUI();
   renderAchievements();
+  updateProgressRing();
+  updateBottomNav(currentView);
   if(currentView === 'trash') renderTrash();
   const dateEl = document.getElementById('view-date');
   if (dateEl) dateEl.textContent = new Date().toLocaleDateString('tr-TR', { weekday:'long', day:'numeric', month:'long' });
@@ -5111,6 +5637,11 @@ window.onload = () => {
         }
         if(isTyping) return;
 
+        if(e.key === 'b' || e.key === 'B') {
+            e.preventDefault();
+            if(bulkMode) exitBulkMode(); else enterBulkMode();
+            return;
+        }
         if(e.key === 'n' || e.key === 'N') {
             e.preventDefault();
             openTaskPanel();
@@ -5129,9 +5660,81 @@ window.onload = () => {
     
     renderCommandPalette('');
     setPomoMode(pomoMode); 
-    updatePomoDisplay(); 
+    updatePomoDisplay();
+    updateProgressRing();
+    updateBottomNav('liste');
+
+    // Swipe gestures for task list
+    const swipeContainer = document.getElementById('task-list-container');
+    initSwipeGestures(swipeContainer);
+
     if(window.lucide) { lucide.createIcons(); }
 };
 </script>
+
+<!-- BULK SELECT BAR -->
+<div class="bulk-bar" id="bulk-bar">
+  <span id="bulk-count" style="font-size:14px; font-weight:900;">0 seçildi</span>
+  <button class="bulk-bar-btn" onclick="bulkComplete()">✅ Tamamla</button>
+  <button class="bulk-bar-btn" onclick="bulkMoveTo('doing')">▶ Yapılıyor</button>
+  <button class="bulk-bar-btn danger" onclick="bulkDelete()">🗑 Sil</button>
+  <button class="bulk-bar-btn" onclick="exitBulkMode()" style="opacity:0.7;">✕ İptal</button>
+</div>
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="bottom-nav" id="bottom-nav">
+  <button class="bn-item active" id="bn-liste" onclick="switchView('liste', document.querySelector('.sidebar .nav-btn[onclick*=\'liste\']')); updateBottomNav('liste')">
+    <div class="bn-icon-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
+      <span class="bn-dot" id="bn-overdue-dot" style="display:none"></span>
+    </div>
+    Görevler
+  </button>
+  <button class="bn-item" id="bn-kanban" onclick="switchView('kanban', document.querySelector('.sidebar .nav-btn[onclick*=\'kanban\']')); updateBottomNav('kanban')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="5" height="18" rx="1"/><rect x="10" y="3" width="5" height="12" rx="1"/><rect x="17" y="3" width="4" height="8" rx="1"/></svg>
+    Kanban
+  </button>
+  <button class="bn-item bn-add-btn" onclick="openTaskPanel()">
+    <div class="bn-add">＋</div>
+    <span style="font-size:9px; font-weight:800; color:var(--theme-accent); margin-top:4px;">Ekle</span>
+  </button>
+  <button class="bn-item" id="bn-pomodoro" onclick="switchView('pomodoro', document.querySelector('.sidebar .nav-btn[onclick*=\'pomodoro\']')); updateBottomNav('pomodoro')">
+    <div class="bn-icon-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span class="bn-dot" id="bn-pomo-dot" style="display:none"></span>
+    </div>
+    Odak
+  </button>
+  <button class="bn-item" id="bn-more" onclick="toggleMobileMenu()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg>
+    Daha
+  </button>
+</nav>
+
+<!-- MOBILE MORE DRAWER -->
+<div id="mobile-more-overlay" style="display:none; position:fixed; inset:0; z-index:490; background:rgba(0,0,0,0.4); backdrop-filter:blur(8px);" onclick="toggleMobileMenu()"></div>
+<div id="mobile-more-drawer" style="display:none; position:fixed; bottom:72px; left:0; right:0; z-index:495; background:var(--surface-solid); border-radius:28px 28px 0 0; border:1px solid var(--border); padding:20px 16px 8px; box-shadow:0 -12px 40px rgba(0,0,0,0.15);">
+  <div style="width:40px; height:5px; background:var(--border); border-radius:3px; margin:0 auto 20px;"></div>
+  <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px;">
+    <button onclick="switchView('takvim', document.querySelector('.sidebar .nav-btn[onclick*=\'takvim\']')); updateBottomNav('takvim'); toggleMobileMenu()" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 8px;border-radius:16px;border:1px solid var(--border);background:var(--bg-main);cursor:pointer;color:var(--text-main);font-size:11px;font-weight:800;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Takvim
+    </button>
+    <button onclick="switchView('aliskanliklar', document.querySelector('.sidebar .nav-btn[onclick*=\'aliskanliklar\']')); updateBottomNav('aliskanliklar'); toggleMobileMenu()" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 8px;border-radius:16px;border:1px solid var(--border);background:var(--bg-main);cursor:pointer;color:var(--text-main);font-size:11px;font-weight:800;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>Alışkanlık
+    </button>
+    <button onclick="switchView('rapor-gorev', document.querySelector('.sidebar .nav-btn[onclick*=\'rapor-gorev\']')); updateBottomNav('rapor-gorev'); toggleMobileMenu()" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 8px;border-radius:16px;border:1px solid var(--border);background:var(--bg-main);cursor:pointer;color:var(--text-main);font-size:11px;font-weight:800;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Rapor
+    </button>
+    <button onclick="toggleDark(); toggleMobileMenu()" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 8px;border-radius:16px;border:1px solid var(--border);background:var(--bg-main);cursor:pointer;color:var(--text-main);font-size:11px;font-weight:800;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>Tema
+    </button>
+  </div>
+  <div style="margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+    <button onclick="openCommandPalette(); toggleMobileMenu()" style="display:flex;align-items:center;gap:10px;padding:14px 16px;border-radius:16px;border:1px solid var(--border);background:var(--bg-main);cursor:pointer;color:var(--text-main);font-size:13px;font-weight:800;"><span>⌘</span> Komutlar</button>
+    <button onclick="askGeminiPlan(); toggleMobileMenu()" style="display:flex;align-items:center;gap:10px;padding:14px 16px;border-radius:16px;border:none;background:linear-gradient(135deg,var(--c-purple),var(--c-blue));cursor:pointer;color:#fff;font-size:13px;font-weight:800;"><span>✨</span> Akıllı Plan</button>
+  </div>
+  <div style="height:env(safe-area-inset-bottom); min-height:16px;"></div>
+</div>
+
 </body>
 </html>
